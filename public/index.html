@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BetVersa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Rokkitt:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="https://github.com/betversa/BetVersa/blob/main/betversa-high-resolution-logo-transparent%20big.png?raw=true" alt="BetVersa Logo" id="logo">
+        </div>
+        <nav class="header-links">
+            <a href="#" class="header-link">Sports</a>
+            <a href="#" class="header-link">Odds</a>
+            <a href="#" class="header-link">Picks</a>
+            <a href="#" class="header-link">Education</a>
+            <a href="#" class="header-link">Resources</a>
+        </nav>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="user-actions">
+            <a href="#" class="button" id="login-btn">Login/Signup</a>
+        </div>
+    </header>
+    <main>
+        <section class="main-banner">
+            <h2>Get Today's Best Bets</h2>
+            <p>Sign up now for exclusive picks and special offers!</p>
+            <a href="#" class="cta-button">Sign Up for Exclusive Picks</a>
+        </section>
+        <section class="live-odds" id="odds-container">
+            <h3>Live Odds</h3>
+            <!-- Odds will be populated here by JavaScript -->
+        </section>
+        <!-- Additional sections like Featured Picks, Upcoming Events, etc. can be added here -->
+    </main>
+    <footer>
+        <p>This site is 100% for entertainment purposes only and does not involve real money betting. If you or someone you know has a gambling problem and wants help, call 1-800 GAMBLER.</p>
+        <p>This service is intended for adult users only.</p>
+        <p>&copy; 2024 BetVersa. All rights reserved.</p>
+    </footer>
+    <div class="social-media">
+        <!-- Social media icons -->
+    </div>
+    <div id="login-form" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img src="https://github.com/betversa/BetVersa/blob/main/betversa-high-resolution-logo-transparent.png?raw=true" alt="BetVersa Logo" class="modal-logo">
+            <form action="/login" method="post">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
