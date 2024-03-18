@@ -145,7 +145,6 @@ header {
     justify-content: space-around;
     align-items: center;
     padding: 10px;
-    border-bottom: 1px solid #ccc;
 }
 
 .live-odds .odds-row:last-child {
@@ -253,4 +252,44 @@ button[type="submit"]:hover {
     color: #FFC72C;
     font-weight: bold;
 }
-  
+
+.live-odds {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    position: relative;
+}
+
+.odds-header {
+    display: flex;
+    justify-content: space-around;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.header-game,
+.header-odds {
+    flex: 1;
+    font-weight: bold;
+}
+
+.odds-content {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.odds-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+}
+
+.odds-row .team,
+.odds-row .odds {
+    flex: 1;
+}
