@@ -5,10 +5,8 @@ body {
     font-family: 'Rokkitt', serif;
     margin: 0;
     padding-top: 80px;
+    margin-top: 120px;
 }
-
-/* Importing Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Rokkitt:wght@400;700&display=swap');
 
 /* Header Styles */
 header {
@@ -23,32 +21,11 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 50px;
 }
 
 .logo-container #logo {
     height: 40px;
-}
-
-.header-links {
-    display: flex;
-    align-items: center;
-}
-
-.header-link {
-    color: white;
-    text-decoration: none;
-    font-family: 'Raleway', sans-serif;
-    font-weight: bold;
-    margin-right: 20px;
-    position: relative;
-    padding: 5px 10px;
-    border-radius: 5px;
-}
-
-.header-link:hover {
-    background-color: black;
-    color: #FFC72C;
-    box-shadow: 0 0 3px #FFC72C;
 }
 
 /* Search Bar Styles */
@@ -56,6 +33,7 @@ header {
     display: flex;
     align-items: center;
 }
+
 .search-bar input[type="text"] {
     padding: 5px;
     border: 1px solid #ccc;
@@ -126,51 +104,51 @@ header {
 }
 
 /* Live Odds Styles */
-.live-odds {
-    padding: 20px;
-    margin: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    color: white;
-    text-align: center;
+.odds-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 20px 0;
 }
 
-.live-odds .odds-table {
-    width: 100%;
-    text-align: center;
+.live-odds {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 300px;
 }
 
 .live-odds .odds-row {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     padding: 10px;
 }
 
-.live-odds .odds-row:last-child {
-    border-bottom: none;
+.live-odds .team {
+    flex: 2; /* Give more space to the team name column */
 }
 
-.live-odds .team,
-.live-odds .odds {
-    flex: 1;
-}
-
-.live-odds .sportsbook-logo img {
-    height: 30px;
-}
-
-/* Social Media Styles */
-.social-media {
+.live-odds .odds-info {
     display: flex;
-    justify-content: center;
-    margin-top: 20px;
+    flex: 3; /* Adjust the space for the odds information */
+    justify-content: space-around;
 }
 
-.social-icon {
-    height: 20px;
-    width: 20px;
-    margin: 0 5px;
+.live-odds .odds,
+.live-odds .spread,
+.live-odds .total {
+    flex: 1; /* Equal space for each piece of odds information */
+}
+
+/* Footer Styles */
+footer {
+    background-color: #333333;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
 }
 
 /* Modal Styles */
@@ -195,48 +173,6 @@ header {
     max-width: 400px;
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* Style the input fields */
-input[type="text"],
-input[type="password"] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-
-/* Style the submit button */
-button[type="submit"] {
-    background-color: #333333;
-    color: white;
-    font-weight: bold;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-}
-
-button[type="submit"]:hover {
-    background-color: #FFC72C;
-}
-
-/* Style the labels and input text in the login form */
 .modal-content label,
 .modal-content input[type="text"],
 .modal-content input[type="password"] {
@@ -244,102 +180,171 @@ button[type="submit"]:hover {
     font-weight: bold;
 }
 
-.live-odds {
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    color: white;
-    text-align: center;
-    position: relative;
+.game-container h3 {
+    margin: 0 0 10px 0; /* Add some space below the game title */
+    color: #FFC72C; /* Make the game title stand out */
 }
 
-.odds-container {
-    width: 50%;
-    float: left;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    border: 3px solid black;
+.game-container .market {
+    margin-top: 10px; /* Add some space between markets */
 }
 
-.odds-header {
-    display: flex;
-    justify-content: space-around;
-    padding: 10px;
-    font-weight: bold;
-    color:white;
-}
-
-.team-header {
-    flex: 2; /* Give more space to the team name column */
-}
-
-.odds-header {
-    flex: 1; /* Equal space for both odds columns */
+.market h4 {
+    margin: 0 0 5px 0; /* Add some space below the market title */
+    color: white; /* Market title color */
 }
 
 .odds-row {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 10px;
+    justify-content: space-between; /* Align items to the edges */
+    padding: 5px 0; /* Add some padding for each odds row */
 }
 
-.odds-row:last-child {
-    border-bottom: none;
+.odds-row .team {
+    flex: 2; /* Allocate more space to the team name */
 }
 
-.team,
-.odds {
-    flex: 1;
-}
-
-.header-link-container {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #333; /* Change to match your header's background color */
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.dropdown-content a {
-    color: white;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content a:hover {
-    background-color: #555; /* Change to a different shade for hover effect */
-}
-
-.header-link-container:hover .dropdown-content {
-    display: block;
-}
-
-html, body {
-    height: 100%;
-    margin: 0;
-}
-
-body {
+.odds-row .odds-info {
     display: flex;
-    flex-direction: column;
+    flex: 3; /* Allocate space for the odds information */
+    justify-content: space-around; /* Evenly space out the odds info */
 }
 
-main {
-    flex: 1;
+.odds-row .odds,
+.odds-row .spread,
+.odds-row .total {
+    flex: 1; /* Allocate equal space to each piece of odds information */
 }
 
-footer {
-    background-color: #333333;
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    .games-container {
+        flex-direction: column; /* Stack games vertically on small screens */
+    }
+
+    .game-container {
+        min-width: 100%; /* Make game containers full width on small screens */
+    }
+}
+
+.odds-container {
+    display: flex;
+    align-items: center;
+    margin: 20px auto;
+    position: relative;
+}
+
+.games-wrapper {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px;
+    gap: // Remove if not needed
+}
+
+.game-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    min-width: 200px;
+    max-width: 200px;
     color: white;
-    padding: 20px 0;
-    text-align: center;
-    font-family: 'Raleway', sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); /* Subtle shadow */
+    margin-bottom: 10px; /* Space between containers */
 }
+
+
+
+.scroll-btn {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.scroll-btn.left {
+    left: 0;
+}
+
+.scroll-btn.right {
+    right: 0;
+}
+
+.game-container .team {
+    font-size: smaller; /* Adjust the font size */
+    display: flex; /* Use flexbox to align items */
+    justify-content: space-between; /* Push the team name to the left and odds to the right */
+    width: 100%; /* Use the full width of the container */
+}
+
+.team-name {
+    flex: 1; /* Allow the team name to take up available space */
+}
+
+.team-odds {
+    margin-left: 10px; /* Add some space between the team name and odds */
+}
+
+
+
+.game-container .away {
+    order: 1; /* Place the away team on top */
+}
+
+.game-container .home {
+    order: 2; /* Place the home team on the bottom */
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column; /* Stack the teams vertically */
+    align-items: flex-start; /* Align items to the start of the container */
+}
+
+.odds-container {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 50px; /* Adjust to match your header's height */
+    left: 0;
+    width: 100%;
+    z-index: 999; /* Ensure it's below the header */
+    overflow-x: auto;
+    background-color: #111111; /* Match the header's background color */
+    padding: 10px 0; /* Add some padding */
+}
+
+.dropdown {
+    margin-bottom: 10px; /* Space between the two dropdowns */
+    font-family: 'Rokkitt', serif; /* Use the Rokkitt font */
+    color: white; /* Text color */
+    background-color: #222222; /* Dark gray background */
+    border: 1px solid #444444; /* Light gray border */
+    text-align-last: center; /* Center the text */
+    -moz-text-align-last: center; /* Center the text for Firefox */
+    padding: 5px; /* Add some padding for better appearance */
+    margin-right: 10px;
+    min-width: 150px;
+    max-width: 150px;
+    margin-left: 20px;
+}
+
+.odds-point,
+.odds-price {
+    display: block; /* Make each element take up its own line */
+    text-align: right; /* Align the text to the right */
+}
+
+.odds-point {
+    font-weight: bold; /* Optionally, make the point bold */
+}
+
+
+
+
+
+

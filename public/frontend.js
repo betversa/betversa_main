@@ -68,49 +68,70 @@ window.onclick = function(event) {
     }
 }
 
-// Function to fetch live odds and display them in the odds container
 function fetchOdds() {
-    fetch('/api/odds')
-        .then(response => response.json())
-        .then(data => {
-            const oddsContainer = document.getElementById('odds-container');
-            oddsContainer.innerHTML = ''; // Clear existing content
+  const selectedMarket = document.getElementById('dropdown2').value;
+  fetch('/api/odds')
+      .then(response => response.json())
+      .then(data => {
+          const gamesWrapper = document.getElementById('games-wrapper');
+          gamesWrapper.innerHTML = ''; // Clear existing content
 
-            data.forEach(event => {
-                event.bookmakers.forEach(bookmaker => {
-                    bookmaker.markets.forEach(market => {
-                        // Create a row for the away team
-                        const awayRow = document.createElement('div');
-                        awayRow.classList.add('odds-row');
-                        awayRow.innerHTML = `
-                            <div class="team">${event.away_team}</div>
-                            <div class="odds">${market.outcomes.find(outcome => outcome.name === event.away_team).price}</div>
-                        `;
-                        oddsContainer.appendChild(awayRow);
+          data.forEach(event => {
+              const gameContainer = document.createElement('div');
+              gameContainer.classList.add('game-container');
 
-                        // Create a row for the home team
-                        const homeRow = document.createElement('div');
-                        homeRow.classList.add('odds-row');
-                        homeRow.innerHTML = `
-                            <div class="team">${event.home_team}</div>
-                            <div class="odds">${market.outcomes.find(outcome => outcome.name === event.home_team).price}</div>
-                            
-                        `;
-                        oddsContainer.appendChild(homeRow);
+              const marketIndex = event.bookmakers[0].markets.findIndex(market => market.key === selectedMarket);
 
-                        // Add a separator line
-                        const separator = document.createElement('hr');
-                        oddsContainer.appendChild(separator);
-                    });
-                });
-            });
-        })
-        .catch(error => console.error('Error fetching live odds:', error));
+              if (marketIndex !== -1) {
+                  const awayTeam = document.createElement('div');
+                  awayTeam.classList.add('team', 'away');
+                  awayTeam.innerHTML = formatTeamOdds(event.away_team, event.bookmakers[0].markets[marketIndex].outcomes[0], selectedMarket);
+                  gameContainer.appendChild(awayTeam);
+
+                  const homeTeam = document.createElement('div');
+                  homeTeam.classList.add('team', 'home');
+                  homeTeam.innerHTML = formatTeamOdds(event.home_team, event.bookmakers[0].markets[marketIndex].outcomes[1], selectedMarket);
+                  gameContainer.appendChild(homeTeam);
+              }
+
+              gamesWrapper.appendChild(gameContainer);
+          });
+      })
+      .catch(error => console.error('Error fetching live odds:', error));
 }
 
-// Call the function to fetch and display the odds initially
+function formatTeamOdds(teamName, outcome, market) {
+    let oddsText = `${teamName} `;
+
+    if (market === 'spreads' || market === 'totals') {
+        oddsText += `
+            <div class="odds-point">${outcome.point}</div>
+            <div class="odds-price">${outcome.price}</div>
+        `;
+    } else {
+        oddsText += `<div class="odds-price">${outcome.price}</div>`;
+    }
+
+    return oddsText;
+}
+
+
+// Initial call to populate the odds
 fetchOdds();
 
-// Set an interval to update the odds every 5 minutes (300000 milliseconds)
-setInterval(fetchOdds, 300000);
+
+
+
+
+// Optional: Set an interval to refresh odds every 5 minutes
+setInterval(fetchOdds, 300000); // 300000 milliseconds = 5 minutes
+
+function scrollGamesLeft() {
+    document.getElementById('games-wrapper').scrollLeft -= 300; // Adjust the scroll amount as needed
+}
+
+function scrollGamesRight() {
+    document.getElementById('games-wrapper').scrollLeft += 300; // Adjust the scroll amount as needed
+}
+
 
