@@ -1,22 +1,3 @@
-// JavaScript for modal login form...
-var modal = document.getElementById("login-form");
-var btn = document.getElementById("login-btn");
-var span = document.getElementsByClassName("close")[0];
-
-btn.onclick = function() {
-    modal.style.display = "block";
-}
-
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-
 // Dropdown functionality
 var dropdowns = document.getElementsByClassName("dropdown-content");
 var i;
@@ -68,6 +49,24 @@ for (var i = 0; i < dropdowns.length; i++) {
     });
 }
 
+// JavaScript for modal login form...
+var modal = document.getElementById("login-form");
+var btn = document.getElementById("login-btn");
+var span = document.getElementsByClassName("close")[0];
+
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 
 // Function to fetch live odds and display them in the odds container
 function fetchOdds() {
@@ -95,6 +94,7 @@ function fetchOdds() {
                         homeRow.innerHTML = `
                             <div class="team">${event.home_team}</div>
                             <div class="odds">${market.outcomes.find(outcome => outcome.name === event.home_team).price}</div>
+                            
                         `;
                         oddsContainer.appendChild(homeRow);
 
@@ -113,3 +113,4 @@ fetchOdds();
 
 // Set an interval to update the odds every 5 minutes (300000 milliseconds)
 setInterval(fetchOdds, 300000);
+

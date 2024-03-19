@@ -12,7 +12,7 @@ const apiKey = 'eb708c171e07a5586303ff757549edb5';
 
 const sportKey = 'basketball_nba';
 const regions = 'us';
-const markets = 'h2h';
+const markets = 'h2h,spreads,totals';
 const oddsFormat = 'american';
 const dateFormat = 'iso';
 const bookmakers = 'draftkings'; // Specify the bookmaker
