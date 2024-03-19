@@ -26,7 +26,7 @@ header {
 }
 
 .logo-container #logo {
-    height: 50px;
+    height: 40px;
 }
 
 .header-links {
@@ -262,24 +262,28 @@ button[type="submit"]:hover {
     position: relative;
 }
 
+.odds-container {
+    width: 50%;
+    float: left;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    border: 3px solid black;
+}
+
 .odds-header {
     display: flex;
     justify-content: space-around;
-    background-color: rgba(0, 0, 0, 0.5);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.header-game,
-.header-odds {
-    flex: 1;
+    padding: 10px;
     font-weight: bold;
+    color:white;
 }
 
-.odds-content {
-    max-height: 300px;
-    overflow-y: auto;
+.team-header {
+    flex: 2; /* Give more space to the team name column */
+}
+
+.odds-header {
+    flex: 1; /* Equal space for both odds columns */
 }
 
 .odds-row {
@@ -289,7 +293,41 @@ button[type="submit"]:hover {
     padding: 10px;
 }
 
-.odds-row .team,
-.odds-row .odds {
+.odds-row:last-child {
+    border-bottom: none;
+}
+
+.team,
+.odds {
     flex: 1;
 }
+
+.header-link-container {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333; /* Change to match your header's background color */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #555; /* Change to a different shade for hover effect */
+}
+
+.header-link-container:hover .dropdown-content {
+    display: block;
+}
+
