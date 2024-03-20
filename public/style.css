@@ -28,6 +28,21 @@ header {
     height: 40px;
 }
 
+.header-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1; /* Allows the nav to take up available space */
+}
+
+.header-nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+    font-family: 'Raleway', sans-serif;
+}
+
 /* Search Bar Styles */
 .search-bar {
     display: flex;
@@ -127,7 +142,6 @@ header {
     overflow-x: auto;
     scroll-behavior: smooth;
     padding: 20px;
-    gap: 20px;
 }
 
 .game-container {
@@ -216,6 +230,48 @@ footer {
         }
     }
 }
+
+/* Dropdown Styles */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    font-family: 'Raleway', sans-serif;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    font-weight: bold;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #111111;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #222222;
+}
+
 
 /* Adjustments for smaller screens */
 @media (max-width: 768px) {

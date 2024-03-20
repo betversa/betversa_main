@@ -1,3 +1,4 @@
+
 // JavaScript for controlling dropdown functionality and modal interactions
 
 // Function to show or hide dropdown content
@@ -80,34 +81,37 @@ function fetchAndDisplayOdds() {
             return response.json();
         })
         .then(data => {
-            updateOddsDisplay(data);
+            updateOddsDisplay(data[selectedSportKey], selectedMarket);
         })
         .catch(error => {
             console.error(`Error fetching odds: ${error.message}`);
         });
 }
 
-function updateOddsDisplay(data) {
+function updateOddsDisplay(data, marketKey) {
     const container = document.getElementById('games-wrapper');
-    if (!container) return;
-    container.innerHTML = ''; // Clear existing content
+    // Clear existing content
+    if (!container || !data) return;
+    container.innerHTML = '';
 
     data.forEach(event => {
-        const gameElement = document.createElement('div');
-        gameElement.classList.add('game-container');
+        // Filter the bookmakers' markets by the selected market key
+        const markets = event.bookmakers.map(bookmaker => {
+            const market = bookmaker.markets.find(market => market.key === marketKey);
+            return market ? { bookmaker: bookmaker.title, market: market } : null;
+        }).filter(market => market !== null);
 
-        const teamsText = `${event.home_team} vs ${event.away_team}`; // Constructed from home_team and away_team
-
-        // Assume `event.bookmakers[0].markets[0].outcomes` contains the odds info you want to display.
-        // Adjust indexing as necessary based on the odds information you wish to show.
-        const oddsInfo = event.bookmakers[0] && event.bookmakers[0].markets[0].outcomes.map(outcome => `${outcome.name}: ${outcome.price}`).join(', ');
-
-        gameElement.innerHTML = `
-            <h3>${teamsText}</h3>
-            <p>Odds: ${oddsInfo}</p>
-        `;
-
-        container.appendChild(gameElement);
+        // Ensure we have market data to display
+        if (markets.length > 0) {
+            const gameElement = document.createElement('div');
+            gameElement.classList.add('game-container');
+            gameElement.innerHTML = `<h4>${event.home_team} vs ${event.away_team}</h4>
+                                     ${markets.map(marketInfo =>
+                                        `<p>${marketInfo.bookmaker}: ${marketInfo.market.outcomes.map(outcome =>
+                                            `${outcome.name} ${outcome.price}`).join(', ')}</p>`
+                                     ).join('')}`;
+            container.appendChild(gameElement);
+        }
     });
 }
 
