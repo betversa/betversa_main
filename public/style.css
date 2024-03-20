@@ -1,3 +1,4 @@
+
 /* General Styles */
 body {
     background-color: black;
@@ -5,7 +6,6 @@ body {
     font-family: 'Rokkitt', serif;
     margin: 0;
     padding-top: 80px;
-    margin-top: 120px;
 }
 
 /* Header Styles */
@@ -32,13 +32,13 @@ header {
 .search-bar {
     display: flex;
     align-items: center;
-}
 
-.search-bar input[type="text"] {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #444444;
+    & input[type="text"] {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #444444;
+    }
 }
 
 /* User Actions Styles */
@@ -46,61 +46,63 @@ header {
     display: flex;
     align-items: center;
     margin-right: 20px;
+
+    a.button {
+        border: 1px solid white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-left: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        color: white;
+        background-color: #333333;
+
+        &:hover {
+            background-color: black;
+        }
+    }
 }
 
-.user-actions a.button {
-    border: 1px solid white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin-left: 10px;
-    text-decoration: none;
-    font-weight: bold;
-    color: white;
-    background-color: #333333;
-}
-
-.user-actions a.button:hover {
-    font-weight: bold;
-    background-color: black;
-}
-
-/* Main Banner Styles */
-.main-banner {
+/* Main Banner & CTA Button Styles */
+.main-banner,
+.cta-button {
     background: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+}
+
+.main-banner {
     background-image: url('https://raw.githubusercontent.com/betversa/BetVersa/main/istockphoto-1297247938-170667a.webp');
     background-size: cover;
     background-position: center;
     background-blend-mode: overlay;
-    color: white;
-    text-align: center;
     padding: 50px 20px;
     border-radius: 15px;
     margin: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
 
-.main-banner h2 {
-    font-size: 36px;
-    margin-bottom: 20px;
-}
+    h2 {
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
 
-.main-banner p {
-    font-size: 24px;
+    p {
+        font-size: 24px;
+    }
 }
 
 .cta-button {
     background-color: #FFC72C;
-    color: black;
     padding: 10px 20px;
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
     margin-top: 20px;
     display: inline-block;
-}
 
-.cta-button:hover {
-    background-color: #e6b800;
+    &:hover {
+        background-color: #e6b800;
+    }
 }
 
 /* Live Odds Styles */
@@ -110,36 +112,37 @@ header {
     overflow-x: auto;
     gap: 20px;
     padding: 20px 0;
-}
-
-.live-odds {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 20px;
-    min-width: 300px;
-}
-
-.live-odds .odds-row {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    margin: 20px auto;
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    background-color: #111111;
 }
 
-.live-odds .team {
-    flex: 2; /* Give more space to the team name column */
-}
-
-.live-odds .odds-info {
+.games-wrapper {
     display: flex;
-    flex: 3; /* Adjust the space for the odds information */
-    justify-content: space-around;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px;
+    gap: 20px;
 }
 
-.live-odds .odds,
-.live-odds .spread,
-.live-odds .total {
-    flex: 1; /* Equal space for each piece of odds information */
+.game-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    min-width: 200px;
+    max-width: 200px;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 /* Footer Styles */
@@ -171,180 +174,56 @@ footer {
     border: 1px solid #888;
     width: 80%;
     max-width: 400px;
+
+    label,
+    input[type="text"],
+    input[type="password"] {
+        color: #FFC72C;
+        font-weight: bold;
+    }
 }
 
-.modal-content label,
-.modal-content input[type="text"],
-.modal-content input[type="password"] {
-    color: #FFC72C;
-    font-weight: bold;
-}
+/* Dropdown & Button Styles */
+.dropdown,
+.scroll-btn {
+    font-family: 'Rokkitt', serif;
+    color: white;
+    background-color: #222222;
+    border: 1px solid #444444;
+    padding: 5px;
+    text-align-last: center;
+    margin-right: 10px;
+    min-width: 150px;
+    max-width: 150px;
+    margin-left: 20px;
+    cursor: pointer;
 
-.game-container h3 {
-    margin: 0 0 10px 0; /* Add some space below the game title */
-    color: #FFC72C; /* Make the game title stand out */
-}
+    .scroll-btn {
+        background-color: rgba(0, 0, 0, 0.5);
 
-.game-container .market {
-    margin-top: 10px; /* Add some space between markets */
-}
+        &.left {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
 
-.market h4 {
-    margin: 0 0 5px 0; /* Add some space below the market title */
-    color: white; /* Market title color */
-}
-
-.odds-row {
-    display: flex;
-    justify-content: space-between; /* Align items to the edges */
-    padding: 5px 0; /* Add some padding for each odds row */
-}
-
-.odds-row .team {
-    flex: 2; /* Allocate more space to the team name */
-}
-
-.odds-row .odds-info {
-    display: flex;
-    flex: 3; /* Allocate space for the odds information */
-    justify-content: space-around; /* Evenly space out the odds info */
-}
-
-.odds-row .odds,
-.odds-row .spread,
-.odds-row .total {
-    flex: 1; /* Allocate equal space to each piece of odds information */
+        &.right {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
 }
 
 /* Adjustments for smaller screens */
 @media (max-width: 768px) {
     .games-container {
-        flex-direction: column; /* Stack games vertically on small screens */
+        flex-direction: column;
     }
 
     .game-container {
-        min-width: 100%; /* Make game containers full width on small screens */
+        min-width: 100%;
     }
 }
-
-.odds-container {
-    display: flex;
-    align-items: center;
-    margin: 20px auto;
-    position: relative;
-}
-
-.games-wrapper {
-    display: flex;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    padding: 20px;
-    gap: // Remove if not needed
-}
-
-.game-container {
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    min-width: 200px;
-    max-width: 200px;
-    color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); /* Subtle shadow */
-    margin-bottom: 10px; /* Space between containers */
-}
-
-
-
-.scroll-btn {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-}
-
-.scroll-btn.left {
-    left: 0;
-}
-
-.scroll-btn.right {
-    right: 0;
-}
-
-.game-container .team {
-    font-size: smaller; /* Adjust the font size */
-    display: flex; /* Use flexbox to align items */
-    justify-content: space-between; /* Push the team name to the left and odds to the right */
-    width: 100%; /* Use the full width of the container */
-}
-
-.team-name {
-    flex: 1; /* Allow the team name to take up available space */
-}
-
-.team-odds {
-    margin-left: 10px; /* Add some space between the team name and odds */
-}
-
-
-
-.game-container .away {
-    order: 1; /* Place the away team on top */
-}
-
-.game-container .home {
-    order: 2; /* Place the home team on the bottom */
-}
-
-.game-container {
-    display: flex;
-    flex-direction: column; /* Stack the teams vertically */
-    align-items: flex-start; /* Align items to the start of the container */
-}
-
-.odds-container {
-    display: flex;
-    align-items: center;
-    position: fixed;
-    top: 50px; /* Adjust to match your header's height */
-    left: 0;
-    width: 100%;
-    z-index: 999; /* Ensure it's below the header */
-    overflow-x: auto;
-    background-color: #111111; /* Match the header's background color */
-    padding: 10px 0; /* Add some padding */
-}
-
-.dropdown {
-    margin-bottom: 10px; /* Space between the two dropdowns */
-    font-family: 'Rokkitt', serif; /* Use the Rokkitt font */
-    color: white; /* Text color */
-    background-color: #222222; /* Dark gray background */
-    border: 1px solid #444444; /* Light gray border */
-    text-align-last: center; /* Center the text */
-    -moz-text-align-last: center; /* Center the text for Firefox */
-    padding: 5px; /* Add some padding for better appearance */
-    margin-right: 10px;
-    min-width: 150px;
-    max-width: 150px;
-    margin-left: 20px;
-}
-
-.odds-point,
-.odds-price {
-    display: block; /* Make each element take up its own line */
-    text-align: right; /* Align the text to the right */
-}
-
-.odds-point {
-    font-weight: bold; /* Optionally, make the point bold */
-}
-
-
-
-
-
-

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +17,7 @@
             <input type="text" placeholder="Search...">
         </div>
         <div class="user-actions">
-            <a href="#" class="button" id="login-btn">Login/Signup</a>
+            <a href="#" class="button" id="login-btn">Login/Sign up</a>
         </div>
     </header>
     <main>
@@ -24,31 +25,31 @@
             <div class="dropdowns">
                 <select class="dropdown" id="dropdown1">
                     <option value="basketball_nba">NBA</option>
-                    <option value="hockey_nhl">NHL</option>
+                    <option value="icehockey_nhl">NHL</option>
                     <option value="american_football_nfl">NFL</option>
                     <option value="baseball_mlb">MLB</option>
                     <option value="americanfootball_ncaaf">NCAAF</option>
                     <option value="basketball_ncaab">NCAAB</option>
                     <!-- Add more options as needed -->
                 </select>
-                <select class="dropdown" id="dropdown2" onchange="fetchOdds()">
+                <select class="dropdown" id="dropdown2" onchange="updateMarketDisplay()">
                   <option value="h2h">Moneyline</option>
                   <option value="spreads">Spread</option>
                   <option value="totals">Total</option>
                   <!-- Add more options as needed -->
                 </select>
-                </div>
-                <button class="scroll-btn left" onclick="scrollGamesLeft()">&#10094;</button>
-                <div class="games-wrapper" id="games-wrapper">
+            </div>
+            <button class="scroll-btn left" onclick="scrollGamesLeft()">&#10094;</button>
+            <div class="games-wrapper" id="games-wrapper">
                 <!-- Game containers will be populated here by JavaScript -->
-                </div>
-                <button class="scroll-btn right" onclick="scrollGamesRight()">&#10095;</button>
+            </div>
+            <button class="scroll-btn right" onclick="scrollGamesRight()">&#10095;</button>
         </div>
-      <section class="main-banner">
-          <h2>Get Today's Best Bets</h2>
-          <p>Sign up now for exclusive picks and special offers!</p>
-          <a href="#" class="cta-button">Sign Up for Exclusive Picks</a>
-      </section>
+        <section class="main-banner">
+            <h2>Get Today's Best Bets</h2>
+            <p>Sign up now for exclusive picks and special offers!</p>
+            <a href="#" class="cta-button">Sign Up for Exclusive Picks</a>
+        </section>
 
         <!-- Additional sections like Featured Picks, Upcoming Events, etc. can be added here -->
     </main>

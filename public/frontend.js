@@ -1,137 +1,146 @@
-// Dropdown functionality
-var dropdowns = document.getElementsByClassName("dropdown-content");
-var i;
+// JavaScript for controlling dropdown functionality and modal interactions
 
-for (i = 0; i < dropdowns.length; i++) {
-    dropdowns[i].parentNode.addEventListener("click", function() {
-        this.classList.toggle("show");
-        var dropdownContent = this.nextElementSibling;
-        if (dropdownContent.style.display === "block") {
-            dropdownContent.style.display = "none";
-        } else {
-            dropdownContent.style.display = "block";
-        }
-    });
+// Function to show or hide dropdown content
+function toggleDropdown(event) {
+    const dropdownContent = event.target.nextElementSibling;
+
+    if (!dropdownContent.classList.contains("show")) {
+        // Hide any other open dropdowns
+        const openDropdowns = document.querySelectorAll('.dropdown-content.show');
+        openDropdowns.forEach(dropdown => {
+            dropdown.classList.remove("show");
+        });
+
+        // Show the clicked dropdown
+        dropdownContent.classList.add("show");
+    } else {
+        // Hide the clicked dropdown
+        dropdownContent.classList.remove("show");
+    }
 }
 
-// Close the dropdown if the user clicks outside of it
+// Close open dropdowns when clicked outside
 window.onclick = function(event) {
-    if (!event.target.matches('.header-link')) {
+    if (!event.target.matches('.dropbtn')) {
         var dropdowns = document.getElementsByClassName("dropdown-content");
         var i;
         for (i = 0; i < dropdowns.length; i++) {
             var openDropdown = dropdowns[i];
-            if (openDropdown.style.display === "block") {
-                openDropdown.style.display = "none";
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
             }
         }
     }
 }
 
-// Get all the elements with the class "header-link-container"
-var dropdowns = document.getElementsByClassName("header-link-container");
 
-// Loop through the elements and add an event listener to each
-for (var i = 0; i < dropdowns.length; i++) {
-    dropdowns[i].addEventListener('click', function(event) {
-        // Prevent the default action of the link
-        event.preventDefault();
+// JavaScript for modal login form interaction
+function setupModal() {
+    // Safely get the modal and button elements before setting up event listeners
+    var modal = document.getElementById("login-form");
+    var btn = document.getElementById("login-btn");
+    var span = document.getElementsByClassName("close")[0];
 
-        // Get the dropdown content of the clicked element
-        var dropdownContent = this.getElementsByClassName("dropdown-content")[0];
+    if (btn && modal) {
+      // When the user clicks the button, open the modal
+      btn.onclick = function() {
+          modal.style.display = "block";
+      }
+    }
 
-        // Toggle the display of the dropdown content
-        if (dropdownContent.style.display === "block") {
-            dropdownContent.style.display = "none";
-        } else {
-            dropdownContent.style.display = "block";
-        }
+    if (span && modal) {
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+          modal.style.display = "none";
+      }
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      }
+    }
+}
+
+// Fetch and display odds for the selected sport
+function fetchAndDisplayOdds() {
+    const selectedSportKey = document.getElementById('dropdown1') ? document.getElementById('dropdown1').value : null;
+    const selectedMarket = document.getElementById('dropdown2') ? document.getElementById('dropdown2').value : null;
+
+    if (!selectedSportKey || !selectedMarket) return;
+
+    const queryParams = `sportKeys=${selectedSportKey}&market=${selectedMarket}`;
+
+    fetch(`/api/odds?${queryParams}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            updateOddsDisplay(data);
+        })
+        .catch(error => {
+            console.error(`Error fetching odds: ${error.message}`);
+        });
+}
+
+function updateOddsDisplay(data) {
+    const container = document.getElementById('games-wrapper');
+    if (!container) return;
+    container.innerHTML = ''; // Clear existing content
+
+    data.forEach(event => {
+        const gameElement = document.createElement('div');
+        gameElement.classList.add('game-container');
+
+        const teamsText = `${event.home_team} vs ${event.away_team}`; // Constructed from home_team and away_team
+
+        // Assume `event.bookmakers[0].markets[0].outcomes` contains the odds info you want to display.
+        // Adjust indexing as necessary based on the odds information you wish to show.
+        const oddsInfo = event.bookmakers[0] && event.bookmakers[0].markets[0].outcomes.map(outcome => `${outcome.name}: ${outcome.price}`).join(', ');
+
+        gameElement.innerHTML = `
+            <h3>${teamsText}</h3>
+            <p>Odds: ${oddsInfo}</p>
+        `;
+
+        container.appendChild(gameElement);
     });
 }
 
-// JavaScript for modal login form...
-var modal = document.getElementById("login-form");
-var btn = document.getElementById("login-btn");
-var span = document.getElementsByClassName("close")[0];
+// Handle scrolling of games list
+function setupScrollButtons() {
+    const scrollLeftBtn = document.getElementById('scroll-left');
+    const scrollRightBtn = document.getElementById('scroll-right');
+    const gamesWrapper = document.getElementById('games-wrapper');
+    if (scrollLeftBtn && gamesWrapper) {
+        scrollLeftBtn.addEventListener('click', function() {
+            gamesWrapper.scrollLeft -= 300;
+        });
+    }
 
-btn.onclick = function() {
-    modal.style.display = "block";
-}
-
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
+    if (scrollRightBtn && gamesWrapper) {
+        scrollRightBtn.addEventListener('click', function() {
+            gamesWrapper.scrollLeft += 300;
+        });
     }
 }
 
-function fetchOdds() {
-  const selectedMarket = document.getElementById('dropdown2').value;
-  fetch('/api/odds')
-      .then(response => response.json())
-      .then(data => {
-          const gamesWrapper = document.getElementById('games-wrapper');
-          gamesWrapper.innerHTML = ''; // Clear existing content
-
-          data.forEach(event => {
-              const gameContainer = document.createElement('div');
-              gameContainer.classList.add('game-container');
-
-              const marketIndex = event.bookmakers[0].markets.findIndex(market => market.key === selectedMarket);
-
-              if (marketIndex !== -1) {
-                  const awayTeam = document.createElement('div');
-                  awayTeam.classList.add('team', 'away');
-                  awayTeam.innerHTML = formatTeamOdds(event.away_team, event.bookmakers[0].markets[marketIndex].outcomes[0], selectedMarket);
-                  gameContainer.appendChild(awayTeam);
-
-                  const homeTeam = document.createElement('div');
-                  homeTeam.classList.add('team', 'home');
-                  homeTeam.innerHTML = formatTeamOdds(event.home_team, event.bookmakers[0].markets[marketIndex].outcomes[1], selectedMarket);
-                  gameContainer.appendChild(homeTeam);
-              }
-
-              gamesWrapper.appendChild(gameContainer);
-          });
-      })
-      .catch(error => console.error('Error fetching live odds:', error));
-}
-
-function formatTeamOdds(teamName, outcome, market) {
-    let oddsText = `${teamName} `;
-
-    if (market === 'spreads' || market === 'totals') {
-        oddsText += `
-            <div class="odds-point">${outcome.point}</div>
-            <div class="odds-price">${outcome.price}</div>
-        `;
-    } else {
-        oddsText += `<div class="odds-price">${outcome.price}</div>`;
+document.addEventListener('DOMContentLoaded', () => {
+    setupModal();
+    // Ensure dropdown elements exist before adding event listeners
+    const dropdown1 = document.getElementById('dropdown1');
+    const dropdown2 = document.getElementById('dropdown2');
+    if (dropdown1) {
+        dropdown1.addEventListener('change', fetchAndDisplayOdds);
+    }
+    if (dropdown2) {
+        dropdown2.addEventListener('change', fetchAndDisplayOdds);
     }
 
-    return oddsText;
-}
-
-
-// Initial call to populate the odds
-fetchOdds();
-
-
-
-
-
-// Optional: Set an interval to refresh odds every 5 minutes
-setInterval(fetchOdds, 300000); // 300000 milliseconds = 5 minutes
-
-function scrollGamesLeft() {
-    document.getElementById('games-wrapper').scrollLeft -= 300; // Adjust the scroll amount as needed
-}
-
-function scrollGamesRight() {
-    document.getElementById('games-wrapper').scrollLeft += 300; // Adjust the scroll amount as needed
-}
-
-
+    setupScrollButtons();
+    fetchAndDisplayOdds(); // Initial fetch and display
+});
