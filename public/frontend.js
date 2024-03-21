@@ -71,32 +71,55 @@ function updateOddsDisplay(data, marketKey) {
   const container = document.getElementById('games-wrapper');
   if (!container || !data) return;
   container.innerHTML = '';
-
   data.forEach(event => {
-      let displayContent = `
-      <div style="display: flex; justify-content: space-between; width: 100%;">
-        <div class="team-names">
-          <p>${event.away_team}</p>
-          <p>${event.home_team}</p>
-        </div>`;
+      // Ensure at least one bookmaker exists
+      if (!event.bookmakers || event.bookmakers.length === 0) return;
       const bookmaker = event.bookmakers[0]; // Assuming first bookmaker has relevant data
-      if (marketKey === 'h2h') {
-          const outcomes = bookmaker.markets.find(m => m.key === 'h2h').outcomes;
-          displayContent += `<div class="market-info">${outcomes[1].price} vs ${outcomes[0].price}</div>`; // Changed to display away odds on top of home odds
-      } else if (marketKey === 'spreads') {
-          const outcomes = bookmaker.markets.find(m => m.key === 'spreads').outcomes;
-          displayContent += `<div class="market-info">${outcomes[1].point} ${outcomes[1].price} vs ${outcomes[0].point} ${outcomes[0].price}</div>`; // Changed to display away odds on top of home odds
-      } else if (marketKey === 'totals') {
-          const outcomes = bookmaker.markets.find(m => m.key === 'totals').outcomes;
-          displayContent += `<div class="market-info">Total: Over/Under ${outcomes[0].point}, Price: ${outcomes[1].price} or ${outcomes[0].price}</div>`; // Modified for consistency, although direction doesn't apply
-      }
-      displayContent += `</div>`;
+      // Check if bookmaker is undefined
+      if (!bookmaker || !bookmaker.markets) return;
+        let awayOdds, homeOdds;
 
-      const gameElement = document.createElement('div');
-      gameElement.classList.add('game-container');
-      gameElement.innerHTML = displayContent;
-      container.appendChild(gameElement);
-  });
+        // Added checks for the existence of markets and outcomes
+        const market = bookmaker.markets.find(m => m.key === marketKey);
+        if (market && market.outcomes) {
+            if (marketKey === 'h2h') {
+                const awayOutcome = market.outcomes.find(o => o.name === event.away_team);
+                const homeOutcome = market.outcomes.find(o => o.name === event.home_team);
+                if (awayOutcome && homeOutcome) {
+                    awayOdds = awayOutcome.price;
+                    homeOdds = homeOutcome.price;
+                }
+            } else if (marketKey === 'spreads') {
+                const awayOutcome = market.outcomes.find(o => o.name === event.away_team);
+                const homeOutcome = market.outcomes.find(o => o.name === event.home_team);
+                if (awayOutcome && homeOutcome) {
+                    awayOdds = `${awayOutcome.point} ${awayOutcome.price}`;
+                    homeOdds = `${homeOutcome.point} ${homeOutcome.price}`;
+                }
+            } else if (marketKey === 'totals') {
+              const awayOutcome = market.outcomes.find(o => o.name === "Over");
+              const homeOutcome = market.outcomes.find(o => o.name === "Under");
+              if (awayOutcome && homeOutcome) {
+                  awayOdds = 'o' + `${awayOutcome.point} ${awayOutcome.price}`;
+                  homeOdds = 'u' + `${homeOutcome.point} ${homeOutcome.price}`;
+              }
+          }
+
+            if (awayOdds !== undefined && homeOdds !== undefined) {
+                let displayContent = `
+                <div class="game-container">
+                    <div class="team-names">
+                        <p>${event.away_team}: ${awayOdds}</p>
+                        <p>${event.home_team}: ${homeOdds}</p>
+                    </div>
+                </div>`;
+
+                const gameElement = document.createElement('div');
+                gameElement.innerHTML = displayContent;
+                container.appendChild(gameElement);
+            }
+        }
+    });
 }
 
 // Fetch and display odds for the selected sport
@@ -156,6 +179,8 @@ function scrollGamesRight() {
   gamesWrapper.scrollLeft += 300; // Adjust the value as needed
 }
 
-document.getElementById('scroll-btn left').addEventListener('click', scrollGamesLeft);
-document.getElementById('scroll-btn right').addEventListener('click', scrollGamesRight);
+document.getElementById('scroll-left').addEventListener('click', scrollGamesLeft);
+document.getElementById('scroll-right').addEventListener('click', scrollGamesRight);
 
+
+              
