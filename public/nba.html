@@ -6,57 +6,66 @@
     <title>BetVersa</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Rokkitt:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" href="https://github.com/betversa/BetVersa/blob/main/favicon.png?raw=true" type="image/png">
 </head>
 <body>
     <header>
         <div class="logo-container">
-            <img src="https://github.com/betversa/BetVersa/blob/main/betversa-high-resolution-logo-transparent%20big.png?raw=true" alt="BetVersa Logo" id="logo">
+          <a href="index.html">
+            <img src="https://github.com/betversa/betversa_main/blob/main/betversa-high-resolution-logo-transparent%20(1).png?raw=true" alt="BetVersa Logo" id="logo"></a>
         </div>
-        <nav class="header-links">
-            <div class="header-link-container">
-                <a href="#" class="header-link">Sports</a>
-                <div class="dropdown-content">
-                    <a href="/nfl">NFL</a>
-                    <a href="/nba">NBA</a>
-                    <a href="/mlb">MLB</a>
-                    <a href="/nhl">NHL</a>
-                    <a href="/ncaaf">NCAAF</a>
-                    <a href="/ncaab">NCAAB</a>
+        <nav class="header-nav">
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Sports</a>
+                <div class="dropdown-content" id="sportsDropdown">
+                    <a href="nba.html">NBA</a>
+                    <a href="nhl.html">NHL</a>
+                    <a href="nfl.html">NFL</a>
+                    <a href="mlb.html">MLB</a>
+                    <a href="ncaab.html">NCAAB</a>
+                    <a href="ncaaf.html">NCAAF</a>  
+                    <!-- Add more sports links as needed -->
                 </div>
             </div>
-            <a href="#" class="header-link">Odds</a>
-            <a href="#" class="header-link">Picks</a>
-            <a href="#" class="header-link">Education</a>
-            <a href="#" class="header-link">Resources</a>
+            <a href="odds.html">Odds</a>
+            <a href="education.html">Education</a>
+            <!-- Add more header links as needed -->
         </nav>
-
-        <div class="search-bar">
-            <input type="text" placeholder="Search...">
-        </div>
         <div class="user-actions">
-            <a href="#" class="button" id="login-btn">Login/Signup</a>
+            <a href="#" class="button" id="login-btn">Login/Sign up</a>
         </div>
     </header>
+
     <main>
+        <div class="odds-container" id="odds-container">
+            <div class="dropdowns">
+                <select class="dropdown" id="dropdown1">
+                    <option value="basketball_nba">NBA</option>
+                    <option value="icehockey_nhl">NHL</option>
+                    <option value="american_football_nfl">NFL</option>
+                    <option value="baseball_mlb">MLB</option>
+                    <option value="americanfootball_ncaaf">NCAAF</option>
+                    <option value="basketball_ncaab">NCAAB</option>
+                    <!-- Add more options as needed -->
+                </select>
+                <select class="dropdown" id="dropdown2" >
+                  <option value="h2h">Moneyline</option>
+                  <option value="spreads">Spread</option>
+                  <option value="totals">Total</option>
+                  <!-- Add more options as needed -->
+                </select>
+            </div>
+            <button class="scroll-btn left" id="scroll-left">&#10094;</button>
+            <div class="games-wrapper" id="games-wrapper">
+                <!-- Game containers will be populated here by JavaScript -->
+            </div>
+            <button class="scroll-btn right" id="scroll-right">&#10095;</button>
+        </div>
         <section class="main-banner">
             <h2>Get Today's Best Bets</h2>
             <p>Sign up now for exclusive picks and special offers!</p>
             <a href="#" class="cta-button">Sign Up for Exclusive Picks</a>
         </section>
-        <div class="odds-container">
-            <section class="live-odds" id="odds-container">
-              <h3>Live Odds</h3>
-              <div class="odds-table">
-                  <div class="odds-header">
-                      <div class="team-header">Games</div>
-                      <div class="odds-header">Pinnacle Odds</div>
-                      <div class="odds-header">DraftKings Odds</div>
-                  </div>
-                  <!-- Odds rows will be populated here by JavaScript -->
-              </div>
-            </section>
-        </div>
-
 
         <!-- Additional sections like Featured Picks, Upcoming Events, etc. can be added here -->
     </main>
@@ -71,7 +80,7 @@
     <div id="login-form" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <img src="https://github.com/betversa/BetVersa/blob/main/betversa-high-resolution-logo-transparent.png?raw=true" alt="BetVersa Logo" class="modal-logo">
+            <img src="https://github.com/betversa/betversa_main/blob/main/betversa-high-resolution-logo-transparent%20(1).png?raw=true" alt="BetVersa Logo" class="modal-logo">
             <form action="/login" method="post">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required><br>

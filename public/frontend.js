@@ -70,57 +70,61 @@ function setupModal() {
 function updateOddsDisplay(data, marketKey) {
   const container = document.getElementById('games-wrapper');
   if (!container || !data) return;
+
   container.innerHTML = '';
   data.forEach(event => {
-      // Ensure at least one bookmaker exists
       if (!event.bookmakers || event.bookmakers.length === 0) return;
-      const bookmaker = event.bookmakers[0]; // Assuming first bookmaker has relevant data
-      // Check if bookmaker is undefined
+      const bookmaker = event.bookmakers[2]; // Assuming first bookmaker has relevant data
       if (!bookmaker || !bookmaker.markets) return;
-        let awayOdds, homeOdds;
 
-        // Added checks for the existence of markets and outcomes
-        const market = bookmaker.markets.find(m => m.key === marketKey);
-        if (market && market.outcomes) {
-            if (marketKey === 'h2h') {
-                const awayOutcome = market.outcomes.find(o => o.name === event.away_team);
-                const homeOutcome = market.outcomes.find(o => o.name === event.home_team);
-                if (awayOutcome && homeOutcome) {
-                    awayOdds = awayOutcome.price;
-                    homeOdds = homeOutcome.price;
-                }
-            } else if (marketKey === 'spreads') {
-                const awayOutcome = market.outcomes.find(o => o.name === event.away_team);
-                const homeOutcome = market.outcomes.find(o => o.name === event.home_team);
-                if (awayOutcome && homeOutcome) {
-                    awayOdds = `${awayOutcome.point} ${awayOutcome.price}`;
-                    homeOdds = `${homeOutcome.point} ${homeOutcome.price}`;
-                }
-            } else if (marketKey === 'totals') {
-              const awayOutcome = market.outcomes.find(o => o.name === "Over");
-              const homeOutcome = market.outcomes.find(o => o.name === "Under");
+      const market = bookmaker.markets.find(m => m.key === marketKey);
+      if (market && market.outcomes) {
+          let awayOdds, homeOdds;
+
+          if (marketKey === 'h2h') {
+              const awayOutcome = market.outcomes.find(o => o.name === event.away_team);
+              const homeOutcome = market.outcomes.find(o => o.name === event.home_team);
               if (awayOutcome && homeOutcome) {
-                  awayOdds = 'o' + `${awayOutcome.point} ${awayOutcome.price}`;
-                  homeOdds = 'u' + `${homeOutcome.point} ${homeOutcome.price}`;
+                  awayOdds = awayOutcome.price;
+                  homeOdds = homeOutcome.price;
               }
+          } else if (marketKey === 'spreads') {
+              const awayOutcome = market.outcomes.find(o => o.name === event.away_team);
+              const homeOutcome = market.outcomes.find(o => o.name === event.home_team);
+              if (awayOutcome && homeOutcome) {
+                awayOdds = `<span style="color: #FFC72C; font-weight: bold;">${awayOutcome.point}</span> ${awayOutcome.price}`;
+                    homeOdds = `<span style="color: #FFC72C; font-weight: bold;">${homeOutcome.point}</span> ${homeOutcome.price}`;
+                }
+          } else if (marketKey === 'totals') {
+              const overOutcome = market.outcomes.find(o => o.name === "Over");
+              const underOutcome = market.outcomes.find(o => o.name === "Under");
+              if (overOutcome && underOutcome) {
+                awayOdds = `<span style="color: #FFC72C; font-weight: bold;">o${overOutcome.point}</span> ${overOutcome.price}`;
+                    homeOdds = `<span style="color: #FFC72C; font-weight: bold;">u${underOutcome.point}</span> ${underOutcome.price}`;
+                }
           }
 
-            if (awayOdds !== undefined && homeOdds !== undefined) {
-                let displayContent = `
-                <div class="game-container">
-                    <div class="team-names">
-                        <p>${event.away_team}: ${awayOdds}</p>
-                        <p>${event.home_team}: ${homeOdds}</p>
-                    </div>
-                </div>`;
+          if (awayOdds !== undefined && homeOdds !== undefined) {
+              let displayContent = `
+              <div class="game-container">
+                  <div class="team-info">
+                      <p>${event.away_team}</p>
+                      <p>${event.home_team}</p>
+                  </div>
+                  <div class="odds-info">
+                      <p>${awayOdds}</p>
+                      <p>${homeOdds}</p>
+                  </div>
+              </div>`;
 
-                const gameElement = document.createElement('div');
-                gameElement.innerHTML = displayContent;
-                container.appendChild(gameElement);
-            }
-        }
-    });
+              const gameElement = document.createElement('div');
+              gameElement.innerHTML = displayContent;
+              container.appendChild(gameElement);
+          }
+      }
+  });
 }
+
 
 // Fetch and display odds for the selected sport
 function fetchAndDisplayOdds() {
@@ -143,31 +147,31 @@ function fetchAndDisplayOdds() {
           .then(data => {
               // Update cache with new data and current timestamp
               oddsCache.data = data;
-                              oddsCache.timestamp = currentTime;
-                              const filteredData = filterDataForDisplay(data, selectedSportKey, selectedMarket);
-                              updateOddsDisplay(filteredData, selectedMarket);
-                          })
-                          .catch(error => {
-                              console.error(`Error fetching odds: ${error.message}`);
-                          });
-                  }
-              }
-              function filterDataForDisplay(data, sportKey, marketKey) {
-                  const sportData = data[sportKey] || [];
-                  return sportData;
-              }
-              document.addEventListener('DOMContentLoaded', () => {
-                  setupModal();
-                  const dropdown1 = document.getElementById('dropdown1');
-                  const dropdown2 = document.getElementById('dropdown2');
-                  if (dropdown1) {
-                      dropdown1.addEventListener('change', fetchAndDisplayOdds);
-                  }
-                  if (dropdown2) {
-                      dropdown2.addEventListener('change', fetchAndDisplayOdds);
-                  }
-                  fetchAndDisplayOdds();  // Initial fetch and display
-              });
+              oddsCache.timestamp = currentTime;
+              const filteredData = filterDataForDisplay(data, selectedSportKey, selectedMarket);
+              updateOddsDisplay(filteredData, selectedMarket);
+          })
+          .catch(error => {
+              console.error(`Error fetching odds: ${error.message}`);
+          });
+  }
+}
+function filterDataForDisplay(data, sportKey, marketKey) {
+    const sportData = data[sportKey] || [];
+    return sportData;
+}
+document.addEventListener('DOMContentLoaded', () => {
+    setupModal();
+    const dropdown1 = document.getElementById('dropdown1');
+    const dropdown2 = document.getElementById('dropdown2');
+    if (dropdown1) {
+        dropdown1.addEventListener('change', fetchAndDisplayOdds);
+    }
+    if (dropdown2) {
+        dropdown2.addEventListener('change', fetchAndDisplayOdds);
+    }
+    fetchAndDisplayOdds();  // Initial fetch and display
+});
 
 function scrollGamesLeft() {
   const gamesWrapper = document.getElementById('games-wrapper');
@@ -181,6 +185,3 @@ function scrollGamesRight() {
 
 document.getElementById('scroll-left').addEventListener('click', scrollGamesLeft);
 document.getElementById('scroll-right').addEventListener('click', scrollGamesRight);
-
-
-              

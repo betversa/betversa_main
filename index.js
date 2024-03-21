@@ -12,11 +12,11 @@ app.use(cors());
 
 // API key and other constants - ensure these are securely managed
 const apiKey = 'eb708c171e07a5586303ff757549edb5'; // Updated for privacy
-const regions = 'us';
+const regions = 'us,eu';
 const markets = 'h2h,spreads,totals';
 const oddsFormat = 'american';
 const dateFormat = 'iso';
-const bookmakers = 'draftkings'; // Example bookmaker
+const bookmakers = 'draftkings,fanduel,pinnacle'; // Example bookmaker
 
 // API endpoint to fetch odds for multiple sports at once
 app.get('/api/odds', async (req, res) => {

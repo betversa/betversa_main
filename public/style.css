@@ -5,7 +5,7 @@ body {
     color: white;
     font-family: 'Rokkitt', serif;
     margin: 0;
-    padding-top: 80px;
+    padding-top: 100px;
 }
 
 /* Header Styles */
@@ -41,19 +41,6 @@ header {
     margin: 0 15px;
     font-weight: bold;
     font-family: 'Raleway', sans-serif;
-}
-
-/* Search Bar Styles */
-.search-bar {
-    display: flex;
-    align-items: center;
-
-    & input[type="text"] {
-        padding: 5px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #444444;
-    }
 }
 
 /* User Actions Styles */
@@ -121,44 +108,82 @@ header {
 }
 
 /* Live Odds Styles */
+
+.team-names p {
+    margin: 0;
+    padding: 5px 10px; /* Adjust padding as needed */
+    background-color: black; /* Black background for the odds */
+    border-radius: 5px; /* Slightly rounded corners */
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.3); /* Light white shadow */
+}
+
 .odds-container {
-  
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
     gap: 20px;
-    padding: 20px 0;
+    padding: 10px 0;
     align-items: center;
-    margin: 20px auto;
     position: fixed;
-    top: 50px;
+    top: 60px; /* Adjust this value to position the container below the header */
     left: 0;
+    height: 120px;
     width: 100%;
     z-index: 999;
     background-color: #111111;
+    margin-bottom: 20px;
+    text-align: center;
+    margin-left: 0;
 }
+
 
 .games-wrapper {
     display: flex;
     overflow-x: auto;
     scroll-behavior: smooth;
     padding: 20px;
+    width: 100%;
+    max-width: 2000px;
+    margin-left: 0;
 }
 
 .game-container {
-    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
     padding: 20px;
-    min-width: 200px;
-    max-width: 200px;
+    min-width: 275px;
+    max-height: 45px;
+    height: auto; /* Adapting height automatically */
+    background-color: rgba(255, 255, 255, 0.1);
     color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 2px 4px #444444;
     margin-bottom: 10px;
+    align-items: center; /* Center items vertically */
+    text-align: center;
+    overflow: hidden;
+    
+}
+
+.game-info {
+    width: 50%;
+}
+
+.game-odds {
+    width: 50%;
+    text-align: right;
+}
+
+.team-info, .odds-info {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    align-items: flex-start; /* Align team names to the start */
 }
+
+.odds-info {
+    align-items: flex-end; /* Align odds to the end (right) */
+}
+
+
 
 /* Footer Styles */
 footer {
@@ -198,39 +223,73 @@ footer {
     }
 }
 
-/* Dropdown & Button Styles */
-.dropdown,
+.header-dropdown {
+    color: #FFC72C;
+  
+}  
+
+/* Arrow Button Styles */
 .scroll-btn {
-    font-family: 'Rokkitt', serif;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
     color: white;
-    background-color: #222222;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1001; /* Ensure the buttons are above other content */
+}
+
+.scroll-btn.left {
+    left: 300px;
+}
+
+.scroll-btn.right {
+    right: 0;
+}
+
+/* Dropdown Styles */
+.dropdown {
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px; /* Increase font size */
+    color: white;
+    background-color: #333333; /* Dark gray background */
     border: 1px solid #444444;
-    padding: 5px;
+    padding: 10px; /* Increase padding for a bigger dropdown */
     text-align-last: center;
     margin-right: 10px;
-    min-width: 150px;
-    max-width: 150px;
-    margin-left: 20px;
+    min-width: 200px; /* Increase width */
     cursor: pointer;
-
-    .scroll-btn {
-        background-color: rgba(0, 0, 0, 0.5);
-
-        &.left {
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        &.right {
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-    }
+    font-weight: bold; /* Make font bold */
+    margin-right: 0; /* Remove margin-right */;
 }
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333333; /* Dark gray background */
+    min-width: 200px; /* Match width of the dropdown */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: white; /* White font color */
+    padding: 12px 16px; /* Increase padding */
+    text-decoration: none;
+    display: block;
+    font-weight: bold; /* Make font bold */
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #444444; /* Slightly lighter gray for hover */
+}
+
 
 /* Dropdown Styles */
 .dropdown {
