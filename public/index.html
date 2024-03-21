@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,18 +46,19 @@
                     <option value="basketball_ncaab">NCAAB</option>
                     <!-- Add more options as needed -->
                 </select>
-                <select class="dropdown" id="dropdown2" onchange="updateMarketDisplay()">
+                <select class="dropdown" id="dropdown2">
                   <option value="h2h">Moneyline</option>
                   <option value="spreads">Spread</option>
                   <option value="totals">Total</option>
                   <!-- Add more options as needed -->
                 </select>
             </div>
-            <button class="scroll-btn left" onclick="scrollGamesLeft()">&#10094;</button>
+            <button class="scroll-btn left" id="scroll-left">&#10094;</button>
             <div class="games-wrapper" id="games-wrapper">
                 <!-- Game containers will be populated here by JavaScript -->
             </div>
-            <button class="scroll-btn right" onclick="scrollGamesRight()">&#10095;</button>
+            <button class="scroll-btn right" id="scroll-right">&#10095;</button>
+
         </div>
         <section class="main-banner">
             <h2>Get Today's Best Bets</h2>

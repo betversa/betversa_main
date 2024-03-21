@@ -18,8 +18,6 @@ const oddsFormat = 'american';
 const dateFormat = 'iso';
 const bookmakers = 'draftkings'; // Example bookmaker
 
-// Within your existing Express setup...
-
 // API endpoint to fetch odds for multiple sports at once
 app.get('/api/odds', async (req, res) => {
     const sportKeys = [
@@ -33,46 +31,33 @@ app.get('/api/odds', async (req, res) => {
     console.log(`Fetching odds for sports: ${sportKeys}`);
 
     try {
-        // Check and serve from cache if available
-        const cacheKey = 'oddsData'; // Simple cache key, consider making this more specific if necessary
-        const cachedOddsData = myCache.get(cacheKey);
+        const promises = sportKeys.map(sportKey =>
+            axios.get(`https://api.the-odds-api.com/v4/sports/${sportKey}/odds`, {
+                params: {
+                    apiKey,
+                    regions,
+                    markets,
+                    oddsFormat,
+                    dateFormat,
+                    bookmakers
+                }
+            }).then(r => {
+                console.log(`Successfully fetched odds for ${sportKey}`);
+                return {
+                    sportKey,
+                    data: r.data
+                };
+            })
+        );
 
-        if (cachedOddsData) {
-            console.log('Serving from cache');
-            return res.json(cachedOddsData);
-        } else {
-            console.log('Fetching new odds data');
-            const promises = sportKeys.map(sportKey =>
-                axios.get(`https://api.the-odds-api.com/v4/sports/${sportKey}/odds`, {
-                    params: {
-                        apiKey,
-                        regions,
-                        markets,
-                        oddsFormat,
-                        dateFormat,
-                        bookmakers
-                    }
-                }).then(r => {
-                    console.log(`Successfully fetched odds for ${sportKey}`);
-                    return {
-                        sportKey,
-                        data: r.data
-                    };
-                })
-            );
+        const allOdds = await Promise.all(promises);
+        // Creating a structured object with sportKeys as keys for easy front-end consumption
+        const structuredOdds = allOdds.reduce((acc, curr) => {
+            acc[curr.sportKey] = curr.data;
+            return acc;
+        }, {});
 
-            const allOdds = await Promise.all(promises);
-            // Creating a structured object with sportKeys as keys for easy front-end consumption
-            const structuredOdds = allOdds.reduce((acc, curr) => {
-                acc[curr.sportKey] = curr.data;
-                return acc;
-            }, {});
-
-            // Cache the structured odds data before sending the response
-            myCache.set(cacheKey, structuredOdds);
-
-            res.json(structuredOdds);
-        }
+        res.json(structuredOdds);
     } catch (error) {
         console.error('Error fetching odds:', error);
         res.status(500).send('Internal Server Error');
