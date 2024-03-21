@@ -5,7 +5,7 @@ body {
     color: white;
     font-family: 'Rokkitt', serif;
     margin: 0;
-    padding-top: 100px;
+    padding-top: 200px;
 }
 
 /* Header Styles */
@@ -343,3 +343,35 @@ footer {
         min-width: 100%;
     }
 }
+
+/* Plus EV Picks Styles */
+.plus-ev-picks {
+    padding: 20px;
+    background-color: #222;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+.plus-ev-picks h2,
+.picks-of-the-day h2 {
+    color: #FFC72C; /* Gold */
+    text-align: center;
+}
+
+/* Picks of The Day Styles */
+.picks-of-the-day {
+    padding: 20px;
+    background-color: #222;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+.picks-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* You might want to customize more depending on your design preferences */
