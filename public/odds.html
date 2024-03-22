@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BetVersa</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Rokkitt:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="oddstyle.css">
     <link rel="icon" href="https://github.com/betversa/BetVersa/blob/main/favicon.png?raw=true" type="image/png">
 </head>
 <body>
     <header>
         <div class="logo-container">
           <a href="index.html">
-            <img src="https://github.com/betversa/betversa_main/blob/main/betversa-high-resolution-logo-transparent%20(1).png?raw=true" alt="BetVersa Logo" id="logo"></a>
+            <img src="https://github.com/betversa/betversa_main/blob/main/betversa-high-resolution-logo-transparent%20(1).png?raw=true" id="logo"></a>
         </div>
         <nav class="header-nav">
             <div class="dropdown">
@@ -37,38 +37,29 @@
     </header>
 
     <main>
-        <div class="odds-container" id="odds-container">
-            <div class="dropdowns">
-                <select class="dropdown" id="dropdown1">
-                    <option value="basketball_nba">NBA</option>
-                    <option value="icehockey_nhl">NHL</option>
-                    <option value="american_football_nfl">NFL</option>
-                    <option value="baseball_mlb">MLB</option>
-                    <option value="americanfootball_ncaaf">NCAAF</option>
-                    <option value="basketball_ncaab">NCAAB</option>
-                    <!-- Add more options as needed -->
-                </select>
-                <select class="dropdown" id="dropdown2" >
-                  <option value="h2h">Moneyline</option>
-                  <option value="spreads">Spread</option>
-                  <option value="totals">Total</option>
-                  <!-- Add more options as needed -->
-                </select>
-            </div>
-            <button class="scroll-btn left" id="scroll-left">&#10094;</button>
-            <div class="games-wrapper" id="games-wrapper">
-                <!-- Game containers will be populated here by JavaScript -->
-            </div>
-            <button class="scroll-btn right" id="scroll-right">&#10095;</button>
+        <div class="dropdowns-container">
+            <select class="dropdown" id="dropdown3" onchange="fetchAndDisplayOdds()">
+                <option value="basketball_nba">NBA</option>
+                <option value="icehockey_nhl">NHL</option>
+                <option value="american_football_nfl">NFL</option>
+                <option value="baseball_mlb">MLB</option>
+                <option value="americanfootball_ncaaf">NCAAF</option>
+                <option value="basketball_ncaab">NCAAB</option>
+                <!-- Add more options as needed -->
+            </select>
+            <select class="dropdown" id="dropdown4" onchange="fetchAndDisplayOdds()">
+                <option value="h2h">Moneyline</option>
+                <option value="spreads">Spread</option>
+                <option value="totals">Total</option>
+                <!-- Add more options as needed -->
+            </select>
         </div>
-        <section class="main-banner">
-            <h2>Get Today's Best Bets</h2>
-            <p>Sign up now for exclusive picks and special offers!</p>
-            <a href="#" class="cta-button">Sign Up for Exclusive Picks</a>
-        </section>
-
-        <!-- Additional sections like Featured Picks, Upcoming Events, etc. can be added here -->
+        <div id="odds-grid" class="odds-grid-body">
+            <!-- Updated the display to have team names along the left side of the grid using flex display,
+                 Odds from various bookmakers will be displayed to the right of each team name, horizontally -->
+        </div>
     </main>
+
     <footer>
         <p>This site is 100% for entertainment purposes only and does not involve real money betting. If you or someone you know has a gambling problem and wants help, call 1-800 GAMBLER.</p>
         <p>This service is intended for adult users only.</p>
@@ -90,6 +81,6 @@
             </form>
         </div>
     </div>
-    <script src="frontend.js"></script>
+    <script src="odds.js"></script>
 </body>
 </html>
