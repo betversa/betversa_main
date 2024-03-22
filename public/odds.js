@@ -56,49 +56,122 @@ function updateOddsDisplay(data, marketKey) {
   const container = document.getElementById('odds-grid');
   if (!container || !data) return;
 
-  container.innerHTML = '';
+  container.innerHTML = ''; // Clear any existing content
 
-  let headerBookmakers = data.length > 0 ? data[0].bookmakers.map(bookmaker => bookmaker.title) : [];
+  // Create a table element
+  let table = document.createElement('table');
+  table.className = 'odds-table';
 
-  let bookmakerHeaderRow = `<div class="bookmaker-headers"><div>Team</div>${headerBookmakers.map(bookmakerTitle => `<div>${bookmakerTitle}</div>`).join('')}</div>`; // Added "Game Time" as the first column
-  container.innerHTML += bookmakerHeaderRow;
+  // Generate the header row with 'Pinnacle' first and including logos
+  let headerRow = document.createElement('tr');
+  headerRow.className = 'header-row';
+  headerRow.innerHTML = '<th>Team</th>'; // Start with the Team header
 
-  data.forEach(event => {
-    if (!event.bookmakers || event.bookmakers.length === 0) return;
+  // Ensure Pinnacle is first, if it's present
+  const pinnacleIndex = data[0].bookmakers.findIndex(b => b.title === "Pinnacle");
+  if (pinnacleIndex > -1) {
+    // Move Pinnacle to the front of the array
+    const pinnacleBookmaker = data[0].bookmakers.splice(pinnacleIndex, 1)[0];
+    data[0].bookmakers.unshift(pinnacleBookmaker);
+  }
 
-    let awayTeamOdds = headerBookmakers.map(bookmakerTitle => {
-      let bookmaker = event.bookmakers.find(b => b.title === bookmakerTitle);
-      if (!bookmaker) {
-        return `<div class="odds-container">N/A</div>`; // If no bookmaker found, now wrapped
-      }
-
-      return `<div class="odds-container">${formatBookmakerOdds(bookmaker, marketKey, event.away_team, '', event.id, true)}</div>`; // true for isAwayTeam, now wrapped
-    }).join('');
-
-    let homeTeamOdds = headerBookmakers.map(bookmakerTitle => {
-      let bookmaker = event.bookmakers.find(b => b.title === bookmakerTitle);
-      if (!bookmaker) {
-        return `<div class="odds-container">N/A</div>`; // If no bookmaker found, now wrapped
-      }
-
-      return `<div class="odds-container">${formatBookmakerOdds(bookmaker, marketKey, event.home_team, '', event.id, false)}</div>`; // false for isAwayTeam (means it's home team), now wrapped
-    }).join('');
-
-    // Addition: Including the game start time to the left of each event container.
-    let gameTime = event.commence_time ? new Date(event.commence_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "TBD"; 
-
-    let gameContainer = `
-        <div class="game-container" style="padding-bottom:20px;">
-        <div class="event-container">${event.away_team}${awayTeamOdds}</div>
-        <div class="event-container">${event.home_team}${homeTeamOdds}</div>
-        <div class="game-container" style="padding-bottom:20px;">
-          <div class="game-time-container">${gameTime}</div>
+  // Add the bookmakers' logos and titles to the header
+  data[0].bookmakers.forEach(bookmaker => {
+    const logoFilename = bookmaker.title.toLowerCase().replace(/\s+/g, '') + '.png';
+    headerRow.innerHTML += `
+      <th>
+        <div class="bookmaker-header">
+          <img src="images/logos/${logoFilename}" alt="${bookmaker.title}" class="bookmaker-logo">
+          <span class="bookmaker-name">${bookmaker.title}</span>
         </div>
-    </div>`;// Modified to include game time
+      </th>`;
+  });
+  table.appendChild(headerRow);
 
-    container.innerHTML += gameContainer;
+  // Generate rows for each event
+  data.forEach(event => {
+    // Add a row for each team in the event
+    [event.away_team, event.home_team].forEach(team => {
+      let teamRow = document.createElement('tr');
+      teamRow.className = 'team-row';
+      teamRow.innerHTML = `<td>${team}</td>`; // Team name cell
+
+      // Add cells for bookmaker odds, with Pinnacle's odds first
+      event.bookmakers.forEach(bookmaker => {
+        let oddsValue = formatBookmakerOdds(bookmaker, marketKey, team);
+        let oddsCell = document.createElement('td');
+        oddsCell.className = 'odds-value';
+        oddsCell.innerHTML = oddsValue;
+        teamRow.appendChild(oddsCell);
+      });
+
+      table.appendChild(teamRow);
+    });
+  });
+
+  container.appendChild(table);
+}
+
+
+function createTeamRow(event, marketKey, teamName) {
+  let teamRow = document.createElement('tr');
+  teamRow.className = 'team-row';
+
+  // Create a cell for the team name
+  let teamNameCell = document.createElement('td');
+  teamNameCell.className = 'team-name';
+  teamNameCell.innerText = teamName;
+  teamRow.appendChild(teamNameCell);
+
+  // Create a cell for Pinnacle's odds first
+  let pinnacleBookmaker = event.bookmakers.find(b => b.title === "Pinnacle");
+  let oddsCell = document.createElement('td');
+  oddsCell.className = 'odds-value';
+  oddsCell.innerHTML = pinnacleBookmaker ? formatBookmakerOdds(pinnacleBookmaker, marketKey, teamName) : 'N/A';
+  teamRow.appendChild(oddsCell);
+
+  // Create cells for other bookmakers' odds, excluding Pinnacle
+  event.bookmakers.forEach(bookmaker => {
+    if (bookmaker.title !== "Pinnacle") {
+      oddsCell = document.createElement('td');
+      oddsCell.className = 'odds-value';
+      oddsCell.innerHTML = formatBookmakerOdds(bookmaker, marketKey, teamName);
+      teamRow.appendChild(oddsCell);
+    }
+  });
+
+  return teamRow;
+}
+
+// This assumes that createTeamRow function creates a row for a single team.
+function createMatchupRows(event, marketKey) {
+  let matchupContainer = document.createElement('div');
+  matchupContainer.className = 'matchup-container';
+
+  let awayTeamRow = createTeamRow(event, marketKey, event.away_team);
+  awayTeamRow.classList.add('team-row');
+  matchupContainer.appendChild(awayTeamRow);
+
+  let homeTeamRow = createTeamRow(event, marketKey, event.home_team);
+  homeTeamRow.classList.add('team-row', 'last-row'); // Add 'last-row' to home team for styling
+  matchupContainer.appendChild(homeTeamRow);
+
+  return matchupContainer;
+}
+
+
+
+function getTeamOdds(headerBookmakers, event, marketKey, teamName, isAwayTeam) {
+  return headerBookmakers.map(bookmakerTitle => {
+    let bookmaker = event.bookmakers.find(b => b.title === bookmakerTitle);
+    if (!bookmaker) {
+      return `<div class="odds-value">N/A</div>`; // If no bookmaker found
+    }
+    let odds = formatBookmakerOdds(bookmaker, marketKey, teamName, '', event.id, isAwayTeam);
+    return `<div class="odds-value">${odds}</div>`;
   });
 }
+
 
 function formatBookmakerOdds(bookmaker, marketKey, teamName, prefix = '', gameId, isAwayTeam = false) {
   // Ensure bookmaker markets are defined

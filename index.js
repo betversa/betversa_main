@@ -16,7 +16,7 @@ const regions = 'us,eu,us2';
 const markets = 'h2h,spreads,totals';
 const oddsFormat = 'american';
 const dateFormat = 'iso';
-const bookmakers = 'draftkings,fanduel,pinnacle,betmgm,pointsbetus,espnbet'; // Example bookmaker
+const bookmakers = 'draftkings,fanduel,pinnacle,betmgm,pointsbetus,espnbet,betrivers,bovada,fliff,wynnbet,williamhill_us, lowvig'; // Example bookmaker
 
 // API endpoint to fetch odds for multiple sports at once
 app.get('/api/odds', async (req, res) => {

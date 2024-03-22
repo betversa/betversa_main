@@ -1,16 +1,17 @@
-/* General Page Styles */
+/* General Styles */
 body {
     background-color: black;
     color: white;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Rokkitt', serif;
     margin: 0;
-    padding-top: 100px; /* Adjust padding to account for fixed header */
+    padding-top: 200px;
 }
 
+/* Header Styles */
 header {
-    background-color: #111;
+    background-color: #111111;
     color: #FFC72C;
-    padding: 10px 0;
+    padding: 10px;
     position: fixed;
     top: 0;
     left: 0;
@@ -19,12 +20,14 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 50px;
 }
 
 .logo-container #logo {
     height: 200px;
-    margin-top:10px;
+    margin-top: 10px;
 }
+
 
 .header-nav a, .user-actions a.button {
     color: white;
@@ -74,33 +77,98 @@ a.button {
     display: block;
 }
 
+/* Dropdown Styles for sports header link */
+.sports-dropdown {
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    color: white;
+    background-color: #444444; /* Changed for differentiation */
+    border: 1px solid #555; /* Changed for differentiation */
+    padding: 10px;
+    text-align-last: center;
+    min-width: 200px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.sports-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #444444; /* Changed for differentiation */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.sports-dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-weight: bold;
+}
+.sports-dropdown:hover .sports-dropdown-content {
+    display: block;
+}
+
 /* Odds Grid Styles */
 #odds-grid {
+    display: flex;
+    overflow-x: auto;
     margin: 20px auto;
-    overflow-y: auto;
-    max-height: 400px;
 }
 
 .event-container, .bookmaker-headers {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    display: flex;
+    min-width: 120px;
     align-items: center;
-    justify-items: center;
-    gap: 5px; /* Adjusted from previously undefined, sets a smaller gap between grid items */
 }
 
 .bookmaker-headers {
     font-weight: bold;
     padding-bottom: 10px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
     background: black;
 }
+
+.bookmaker-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bookmaker-logo {
+  height: 30px; /* Adjust the size as needed */
+  width: auto;
+  margin-bottom: 5px; /* Give some space between the logo and the text */
+  margin-right: 5px; /* Space between logo and name */
+  vertical-align: middle; /* Align with the bookmaker name */
+  border: 2px solid #11111; /* Adjust the color and width as needed */
+  box-shadow: 0 0 5px #FEFEFE; /* Add a subtle shadow */;
+  border-radius: 4px; /* Adjust this value to increase or decrease the roundness */
+  padding: 2px; /* Adds some space between the image and the border */
+  object-fit: contain; /* Ensures the image is scaled correctly within the border */
+  box-sizing: border-box; /* Makes sure the padding and border are included in the total width and height */
+  }
+}
+
+.bookmaker-name {
+  display: block;
+  font-size: 0.8rem; /* Smaller font size for bookmaker names */
+  color: #FFF; /* Adjust the color as needed */
+}
+
 
 .team-name-container {
     flex-grow: 1;
 }
+
+.team-row {
+  border-bottom: 2px solid #333; /* This adds the separator line */
+  margin-bottom: 15px; /* This adds space between the matchups */
+}
+
+/* This will remove the border from the last team-row of each event */
+.team-row:last-child {
+  border-bottom: none;
+}
+
 
 .odds-container {
     display: flex;
@@ -160,3 +228,58 @@ footer {
     padding: 20px 0;
     text-align: center;
 }
+
+/* Responsive Design Adjustments */
+@media (max-width: 768px) {
+    .logo-container #logo {
+        height: 100px; /* Make logo smaller on mobile */
+    }
+
+    header {
+        flex-direction: column;
+        padding: 20px 0;
+    }
+
+    .header-nav a, .user-actions a.button {
+        margin: 5px; /* Reduce margin for header links and buttons */
+    }
+
+    .sports-dropdown, .dropdown {
+        font-size: 14px; /* Adjust font size for better fit */
+        margin: 0 5px; /* Adjust margin for dropdowns */
+    }
+
+    .event-container, .bookmaker-headers {
+        flex-direction: column; /* Stack odds containers vertically */
+    }
+
+    .odds-container, .away-odds-container, .home-odds-container {
+        flex-direction: column; /* Stack odds containers vertically */
+    }
+
+    .modal-content {
+        width: 90%; /* Make modal wider on smaller screens */
+    }
+}
+
+.odds-value {
+  padding: 5px; /* Adjust the padding as needed */
+  border: 2px solid #444444; /* Gray border */
+  border-radius: 10px; /* Adjust the border-radius for more or less rounded corners */
+  box-shadow: 2px 2px 5px #888888; /* Light gray shadow */
+  margin: 8px; /* Add some space between the odds */
+  text-align: center; /* Center the text */
+  
+
+
+
+.odds-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.header-row th {
+  background-color: #333; /* Adjust the color to fit your design
+}
+  
