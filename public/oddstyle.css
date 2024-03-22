@@ -22,7 +22,8 @@ header {
 }
 
 .logo-container #logo {
-    height: 40px;
+    height: 200px;
+    margin-top:10px;
 }
 
 .header-nav a, .user-actions a.button {
